@@ -12,15 +12,17 @@ export default function App() {
     setReport(null);
     try {
       const res = await fetch(
-        `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&category=performance`
+        `https://corsproxy.io/?https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&category=performance`
       );
       const data = await res.json();
       if (data.lighthouseResult) {
         setReport(data.lighthouseResult);
       } else {
+        console.log(data); // log the full response for debugging
         setError('No report found. Please check the URL and try again.');
       }
     } catch (err) {
+      console.error(err);
       setError('Error fetching PageSpeed Insights data.');
     }
     setLoading(false);
